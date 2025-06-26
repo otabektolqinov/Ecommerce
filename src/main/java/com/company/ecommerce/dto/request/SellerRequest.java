@@ -1,4 +1,4 @@
-package com.company.ecommerce.dto;
+package com.company.ecommerce.dto.request;
 
 import com.company.ecommerce.domain.SellerLogo;
 import lombok.*;
@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class SellerRequest {
+    private Long id;
     private String name;
     private String phoneNumber;
     private String description;

@@ -1,8 +1,5 @@
-package com.company.ecommerce.dto;
+package com.company.ecommerce.dto.response;
 
-import com.company.ecommerce.domain.Seller;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
 import lombok.*;
 
 @Getter

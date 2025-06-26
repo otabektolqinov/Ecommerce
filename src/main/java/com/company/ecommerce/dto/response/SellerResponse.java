@@ -1,11 +1,7 @@
-package com.company.ecommerce.dto;
+package com.company.ecommerce.dto.response;
 
 import com.company.ecommerce.domain.Product;
 import com.company.ecommerce.domain.SellerLogo;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.time.LocalDate;
