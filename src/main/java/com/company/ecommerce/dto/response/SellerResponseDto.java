@@ -1,6 +1,5 @@
 package com.company.ecommerce.dto.response;
 
-import com.company.ecommerce.domain.Product;
 import com.company.ecommerce.domain.SellerLogo;
 import lombok.*;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SellerResponse {
+public class SellerResponseDto {
 
     private String name;
     private String phoneNumber;
@@ -22,5 +21,5 @@ public class SellerResponse {
     private Integer commentCount;
     private LocalDate registeredDate;
     private SellerLogo sellerLogo;
-    private List<Product> products;
+    private List<ProductResponseDto> products;
 }
