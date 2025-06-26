@@ -1,11 +1,6 @@
-package com.company.ecommerce.dto;
+package com.company.ecommerce.dto.response;
 
-import com.company.ecommerce.domain.Product;
 import com.company.ecommerce.domain.SellerLogo;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -16,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SellerResponse {
+public class SellerResponseDto {
 
     private String name;
     private String phoneNumber;
@@ -26,5 +21,5 @@ public class SellerResponse {
     private Integer commentCount;
     private LocalDate registeredDate;
     private SellerLogo sellerLogo;
-    private List<Product> products;
+    private List<ProductResponseDto> products;
 }
