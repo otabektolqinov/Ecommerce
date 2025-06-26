@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public HttpApiResponse<AddressResponseDto> getAddressById(Long id) {
-        Optional<Address> optional = addressRepository.findById(id);
+        Optional<Address> optional = addressRepository.findByIdAndDeletedAtIsNull(id);
         if (optional.isEmpty()){
             return ResponseUtils.buildNotFoundResponse("Address", id);
         }
@@ -76,11 +77,39 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public HttpApiResponse<AddressResponseDto> updateAddressById(Long id, AddressRequestDto dto) {
-        return null;
+        Optional<Address> optional = addressRepository.findByIdAndDeletedAtIsNull(id);
+        if (optional.isEmpty()){
+            return ResponseUtils.buildNotFoundResponse("Address", id);
+        }
+
+        Address address = addressMapper.updateAddress(optional.get(), dto);
+        Address saved = addressRepository.save(address);
+
+        return HttpApiResponse.<AddressResponseDto>builder()
+                .content(addressMapper.toDto(saved))
+                .message("Address updated Successfully")
+                .responseCode(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .success(true)
+                .build();
     }
 
     @Override
     public HttpApiResponse<AddressResponseDto> deleteAddressById(Long id) {
-        return null;
+        Optional<Address> optional = addressRepository.findByIdAndDeletedAtIsNull(id);
+        if (optional.isEmpty()){
+            return ResponseUtils.buildNotFoundResponse("Address", id);
+        }
+
+        Address address = optional.get();
+        address.setDeletedAt(LocalDateTime.now());
+        addressRepository.save(address);
+
+        return HttpApiResponse.<AddressResponseDto>builder()
+                .success(true)
+                .message("Successfully deleted Address")
+                .status(HttpStatus.OK)
+                .responseCode(HttpStatus.OK.value())
+                .build();
     }
 }

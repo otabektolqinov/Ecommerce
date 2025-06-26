@@ -12,6 +12,7 @@ import lombok.*;
 @Builder
 public class AddressResponseDto {
 
+    private Long id;
     private String region;
     private String city;
     private String district;
