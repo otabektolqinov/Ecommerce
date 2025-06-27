@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 public class OrderRequestDto {
 
-    private Integer orderStatusIndex;
-    private Integer deliveryAddressId;
+    private Long deliveryAddressId;
     private Integer deliveryTypeIndex;
+    private Long userId;
 
 }

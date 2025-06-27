@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/cart-item")
 @RequiredArgsConstructor
@@ -25,10 +27,10 @@ public class CartItemController {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<HttpApiResponse<CartItemResponseDto>> getAllCartItemsByUserId(
+    public ResponseEntity<HttpApiResponse<List<CartItemResponseDto>>> getAllCartItemsByUserId(
             @RequestParam("userId") Long userId
     ){
-        HttpApiResponse<CartItemResponseDto> response = cartItemService.getAllCartItemsByUserId(userId);
+        HttpApiResponse<List<CartItemResponseDto>> response = cartItemService.getAllCartItemsByUserId(userId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 

@@ -4,13 +4,14 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class CartItemResponseDto {
+public class OrderItemResponseDto {
 
-    private ProductResponseDto productDto;
+    private Long prodId;
+    private String prodName;
     private Integer quantity;
-    private Long userId;
+    private Double priceAtOrder;
 
 }

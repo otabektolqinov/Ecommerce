@@ -16,7 +16,7 @@ public class PaymentResponseDto {
     private Integer paymentStatusIndex;
     private LocalDateTime paymentDate;
     private String transactionId;
-    private Integer orderId;
+    private Long orderId;
     private Double paymentAmount;
 
 }

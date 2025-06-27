@@ -11,7 +11,7 @@ import lombok.*;
 @Entity
 public class OrderItem extends BaseEntity {
 
-    @OneToOne(
+    @ManyToOne(
             cascade = CascadeType.ALL
     )
     private Product product;
@@ -20,6 +20,7 @@ public class OrderItem extends BaseEntity {
     private Double priceAtTime;
 
     @ManyToOne
+    @JoinColumn(name = "orders_id")
     private Orders orders;
 
 }

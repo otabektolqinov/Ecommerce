@@ -19,7 +19,7 @@ public class Orders extends BaseEntity{
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToOne
+    @ManyToOne
     private Address deliveryAddress;
 
     @Enumerated(value = EnumType.STRING)

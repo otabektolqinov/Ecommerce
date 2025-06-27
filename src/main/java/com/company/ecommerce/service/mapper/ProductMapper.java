@@ -16,6 +16,11 @@ public interface ProductMapper {
     @Mapping(target = "soldQuantity", ignore = true)
     Product toEntity(ProductRequestDto dto);
 
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "productFiles", ignore = true)
+    @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "rating", ignore = true)
+    @Mapping(target = "seller", ignore = true)
     ProductResponseDto toResponseDto(Product entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

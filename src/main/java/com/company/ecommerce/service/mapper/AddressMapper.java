@@ -6,7 +6,6 @@ import com.company.ecommerce.dto.response.AddressResponseDto;
 import com.company.ecommerce.enums.AddressType;
 import org.mapstruct.*;
 
-import java.util.List;
 
 @Mapper(componentModel = "spring", imports = {AddressType.class})
 public interface AddressMapper {
