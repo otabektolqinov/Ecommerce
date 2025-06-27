@@ -34,6 +34,14 @@ public class CartItemController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @PutMapping
+    public ResponseEntity<HttpApiResponse<CartItemResponseDto>> changeCartItemCountById(
+            @RequestParam("cartItemId") Long itemId, @RequestParam("count") Integer count
+    ){
+        HttpApiResponse<CartItemResponseDto> response = cartItemService.changeCartItemCountById(itemId, count);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
     @DeleteMapping
     public ResponseEntity<HttpApiResponse<CartItemResponseDto>> deleteCartItemById(
             @RequestParam("userId") Long cartId

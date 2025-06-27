@@ -16,4 +16,5 @@ public interface OrderService {
 
     HttpApiResponse<List<OrderResponseDto>> getAllOrdersByUsersId(Long userId);
 
+    HttpApiResponse<OrderResponseDto> updateOrderStatusById(Long orderId, Integer orderStatusIndex);
 }

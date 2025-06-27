@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 public class CartItem extends BaseEntity{
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Product product;
     private Integer quantity;
 

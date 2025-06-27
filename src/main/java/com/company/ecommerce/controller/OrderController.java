@@ -35,4 +35,12 @@ public class OrderController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @PutMapping
+    public ResponseEntity<HttpApiResponse<OrderResponseDto>> updateOrderStatusById(
+            @RequestParam("orderId") Long orderId,
+            @RequestParam("statusIndex") Integer statusIndex
+    ){
+        HttpApiResponse<OrderResponseDto> response = orderService.updateOrderStatusById(orderId, statusIndex);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }

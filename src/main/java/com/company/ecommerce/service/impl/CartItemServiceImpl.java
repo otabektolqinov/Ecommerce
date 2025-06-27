@@ -12,6 +12,7 @@ import com.company.ecommerce.repository.UserRepository;
 import com.company.ecommerce.service.CartItemService;
 import com.company.ecommerce.service.mapper.CartItemMapper;
 import com.company.ecommerce.service.mapper.ProductMapper;
+import com.company.ecommerce.service.utils.ResponseUtils;
 import com.company.ecommerce.service.validation.CartItemValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -85,6 +86,7 @@ public class CartItemServiceImpl implements CartItemService {
                 .build();
     }
 
+
     @Override
     public HttpApiResponse<CartItemResponseDto> deleteCartItemById(Long userId) {
         cartRepository.deleteAllByUsers_Id(userId);
@@ -93,6 +95,25 @@ public class CartItemServiceImpl implements CartItemService {
                 .message("All items in the card removed")
                 .responseCode(HttpStatus.OK.value())
                 .success(true)
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @Override
+    public HttpApiResponse<CartItemResponseDto> changeCartItemCountById(Long itemId, Integer count) {
+        Optional<CartItem> itemOptional = cartRepository.findById(itemId);
+        if (itemOptional.isEmpty())
+            return ResponseUtils.buildNotFoundResponse("CartItem", itemId);
+
+        itemOptional.get().setQuantity(count);
+
+        CartItem saved = cartRepository.save(itemOptional.get());
+
+        return HttpApiResponse.<CartItemResponseDto>builder()
+                .responseCode(HttpStatus.OK.value())
+                .success(true)
+                .content(cartMapper.toDto(saved, productMapper))
+                .message("OK")
                 .status(HttpStatus.OK)
                 .build();
     }
