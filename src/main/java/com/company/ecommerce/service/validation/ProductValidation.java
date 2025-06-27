@@ -16,13 +16,13 @@ public class ProductValidation {
     private final CategoryRepository categoryRepository;
     private final SellerRepository sellerRepository;
 
-    public boolean categoryExist(Long id) {
+    public Category categoryExist(Long id) {
         Optional<Category> optionalCategory = categoryRepository.findByIdAndDeletedAtIsNull(id);
-        return optionalCategory.isPresent();
+        return optionalCategory.orElse(null);
     }
 
-    public boolean sellerExist(Long id) {
+    public Seller sellerExist(Long id) {
         Optional<Seller> optionalSeller = sellerRepository.findByIdAndDeletedAtIsNull(id);
-        return optionalSeller.isPresent();
+        return optionalSeller.orElse(null);
     }
 }

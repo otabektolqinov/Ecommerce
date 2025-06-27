@@ -47,10 +47,10 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpApiResponse<CategoryResponseDto>> deleteCategoryById(
+    public ResponseEntity<HttpApiResponse<String>> deleteCategoryById(
             @PathVariable Long id
     ) {
-        HttpApiResponse<CategoryResponseDto> response = categoryService.deleteCategoryById(id);
+        HttpApiResponse<String> response = categoryService.deleteCategoryById(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

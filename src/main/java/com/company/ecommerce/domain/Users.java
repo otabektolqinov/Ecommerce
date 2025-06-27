@@ -38,4 +38,10 @@ public class Users extends BaseEntity{
     )
     private List<CartItem> cartItemList;
 
+    @OneToMany(
+            mappedBy = "users",
+            cascade = CascadeType.ALL
+    )
+    private List<Comment> commentList;
+
 }

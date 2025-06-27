@@ -4,8 +4,11 @@ import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.ProductRequestDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
 import com.company.ecommerce.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,10 +23,9 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<HttpApiResponse<ProductResponseDto>> createProduct(
-            @RequestPart ProductRequestDto productRequestDto,
-            @RequestPart List<MultipartFile> productFiles
+            @RequestBody ProductRequestDto productRequestDto
     ) {
-        HttpApiResponse<ProductResponseDto> response = productService.createProduct(productRequestDto, productFiles);
+        HttpApiResponse<ProductResponseDto> response = productService.createProduct(productRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -34,13 +36,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/{categoryName}")
+    @GetMapping("/categoryName/{categoryName}")
     public ResponseEntity<HttpApiResponse<List<ProductResponseDto>>> getAllProductByCategoryName(@PathVariable String categoryName) {
         HttpApiResponse<List<ProductResponseDto>> response = productService.getAllProductByCategoryName(categoryName);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/{sellerId}")
+    @GetMapping("/sellerId/{sellerId}")
     public ResponseEntity<HttpApiResponse<List<ProductResponseDto>>> getAllProductBySellerId(@PathVariable Long sellerId) {
         HttpApiResponse<List<ProductResponseDto>> response = productService.getAllProductBySellerId(sellerId);
         return ResponseEntity.status(HttpStatus.OK).body(response);

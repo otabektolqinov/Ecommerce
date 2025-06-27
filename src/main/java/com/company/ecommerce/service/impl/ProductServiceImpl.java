@@ -1,6 +1,9 @@
 package com.company.ecommerce.service.impl;
 
+import com.company.ecommerce.domain.Category;
 import com.company.ecommerce.domain.Product;
+import com.company.ecommerce.domain.ProductFile;
+import com.company.ecommerce.domain.Seller;
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.ProductRequestDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
@@ -15,8 +18,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -26,11 +31,11 @@ public class ProductServiceImpl implements ProductService {
     private final ProductValidation productValidation;
 
     @Override
-    public HttpApiResponse<ProductResponseDto> createProduct(ProductRequestDto productRequestDto, List<MultipartFile> productFiles) {
+    public HttpApiResponse<ProductResponseDto> createProduct(ProductRequestDto productRequestDto) {
         Product product = productMapper.toEntity(productRequestDto);
-        boolean checkCategory = productValidation.categoryExist(product.getCategory().getId());
-        boolean checkSeller = productValidation.sellerExist(product.getSeller().getId());
-        if (!checkSeller && !checkCategory) {
+        Category category = productValidation.categoryExist(productRequestDto.getCategoryId());
+        Seller seller = productValidation.sellerExist(productRequestDto.getSellerId());
+        if (category == null && seller == null) {
             return HttpApiResponse.<ProductResponseDto>builder()
                     .success(false)
                     .message("Unable to upload product")
@@ -38,6 +43,8 @@ public class ProductServiceImpl implements ProductService {
                     .responseCode(HttpStatus.BAD_REQUEST.value())
                     .build();
         }
+
+
         Product saved = productRepository.save(product);
         return HttpApiResponse.<ProductResponseDto>builder()
                 .success(true)
@@ -87,9 +94,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public HttpApiResponse<List<ProductResponseDto>> getAllProductBySellerId(Long sellerId) {
-        boolean sellerExist = productValidation.sellerExist(sellerId);
+        Seller seller = productValidation.sellerExist(sellerId);
         Optional<List<Product>> optionalProductList = productRepository.findAllBySellerIdAndDeletedAtIsNull(sellerId);
-        if (!sellerExist) {
+        if (seller == null) {
             return ResponseUtils.buildNotFoundResponse("Seller", sellerId);
         }
         if (optionalProductList.isEmpty()) {

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface ProductService {
-    HttpApiResponse<ProductResponseDto> createProduct(ProductRequestDto productRequestDto, List<MultipartFile> productFiles);
+    HttpApiResponse<ProductResponseDto> createProduct(ProductRequestDto productRequestDto);
 
     HttpApiResponse<ProductResponseDto> getProductById(Long id);
 
