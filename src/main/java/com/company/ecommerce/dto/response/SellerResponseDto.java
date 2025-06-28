@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,6 +21,6 @@ public class SellerResponseDto {
     private Float rating;
     private Integer commentCount;
     private LocalDate registeredDate;
-    private SellerLogo sellerLogo;
-    private List<ProductResponseDto> products;
+    private Set<SellerLogoResponse> sellerLogo;
+    private Set<ProductResponseDto> products;
 }

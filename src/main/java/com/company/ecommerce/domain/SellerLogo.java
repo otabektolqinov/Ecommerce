@@ -2,6 +2,7 @@ package com.company.ecommerce.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.*;
 
@@ -21,7 +22,7 @@ public class SellerLogo extends BaseEntity{
     private String mimeType;
     private Long size;
 
-    @OneToOne
+    @ManyToOne
     private Seller seller;
 
 }

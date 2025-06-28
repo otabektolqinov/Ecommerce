@@ -6,7 +6,9 @@ import com.company.ecommerce.dto.response.ProductResponseDto;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", imports = {CommentMapper.class})
+import java.util.Set;
+
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
     CommentMapper commentMapper = Mappers.getMapper(CommentMapper.class);
     ProductFileMapper productFileMapper = Mappers.getMapper(ProductFileMapper.class);
@@ -33,5 +35,8 @@ public interface ProductMapper {
     @Mapping(target = "rating", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Product updateEntity(ProductRequestDto dto, @MappingTarget Product entity);
+
+
+    Set<ProductResponseDto> mapToResponseDtoSet(Set<Product> products);
 
 }

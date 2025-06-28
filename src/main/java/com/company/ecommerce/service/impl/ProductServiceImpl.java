@@ -44,6 +44,17 @@ public class ProductServiceImpl implements ProductService {
          category.getProducts().add(product);
          seller.getProducts().add(product);
 
+        float totalRating = 0;
+        int productCount = seller.getProducts().size();
+
+        for (Product prod : seller.getProducts()) {
+            totalRating += prod.getRating() != null ? (float) prod.getRating() : 0;
+        }
+
+        float averageRating = productCount > 0 ? totalRating / productCount : 0;
+
+        seller.setRating(averageRating);
+
         Product saved = productRepository.save(product);
 
         return HttpApiResponse.<ProductResponseDto>builder()

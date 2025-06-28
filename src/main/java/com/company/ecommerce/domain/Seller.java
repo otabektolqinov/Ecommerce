@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,15 +29,16 @@ public class Seller extends BaseEntity {
     private Integer commentCount;
     private LocalDate registeredDate;
 
-    @OneToOne(
-            cascade = CascadeType.ALL
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            mappedBy = "seller"
     )
-    private SellerLogo sellerLogo;
+    private Set<SellerLogo> sellerLogo;
 
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "seller"
     )
-    private List<Product> products;
+    private Set<Product> products;
 
 }

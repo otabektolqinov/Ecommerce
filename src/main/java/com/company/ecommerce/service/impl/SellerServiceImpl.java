@@ -26,7 +26,7 @@ public class SellerServiceImpl implements SellerService {
     private final SellerValidation sellerValidation;
 
     @Override
-    public HttpApiResponse<SellerResponseDto> createSeller(SellerRequestDto request, MultipartFile logo) {
+    public HttpApiResponse<SellerResponseDto> createSeller(SellerRequestDto request) {
         Seller seller = sellerMapper.mapToSeller(request);
 
         seller.setRegisteredDate(LocalDate.now());
