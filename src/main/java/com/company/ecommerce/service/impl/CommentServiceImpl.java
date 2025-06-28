@@ -12,6 +12,8 @@ import com.company.ecommerce.service.mapper.CommentMapper;
 import com.company.ecommerce.service.utils.ResponseUtils;
 import com.company.ecommerce.service.validation.CommentValidation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -83,53 +85,54 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public HttpApiResponse<List<CommentResponseDto>> getAllCommentByProductId(Long id) {
+    public HttpApiResponse<Page<CommentResponseDto>> getAllCommentByProductId(Long id, Pageable pageable) {
         Product product = commentValidation.productExists(id);
         if (product == null) {
             return ResponseUtils.buildNotFoundResponse("Product", id);
         }
-        Optional<List<Comment>> optionalList = commentRepository.findAllByProductIdAndDeletedAtIsNull(id);
-        if (optionalList.isEmpty()) {
-            return HttpApiResponse.<List<CommentResponseDto>>builder()
+        Page<Comment> commentPageList = commentRepository.findAllByProductIdAndDeletedAtIsNull(id, pageable);
+        if (commentPageList.isEmpty()) {
+            return HttpApiResponse.<Page<CommentResponseDto>>builder()
                     .success(false)
                     .message("Product list is empty")
                     .responseCode(HttpStatus.NOT_FOUND.value())
                     .status(HttpStatus.NOT_FOUND)
                     .build();
         }
-        return HttpApiResponse.<List<CommentResponseDto>>builder()
+        Page<CommentResponseDto> responseDtoPage = commentPageList.map(commentMapper::toDto);
+        return HttpApiResponse.<Page<CommentResponseDto>>builder()
                 .success(true)
                 .message("OK")
                 .responseCode(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
-                .content(optionalList.get().stream().map(commentMapper::toDto).toList())
+                .content(responseDtoPage)
                 .build();
     }
 
     @Override
-    public HttpApiResponse<List<CommentResponseDto>> getAllCommentByUserId(Long id) {
+    public HttpApiResponse<Page<CommentResponseDto>> getAllCommentByUserId(Long id, Pageable pageable) {
 
         Users user = commentValidation.userExists(id);
         if (user == null) {
             return ResponseUtils.buildNotFoundResponse("User", id);
         }
 
-        Optional<List<Comment>> optionalList = commentRepository.findAllByUsersIdAndDeletedAtIsNull(id);
-        if (optionalList.isEmpty()) {
-            return HttpApiResponse.<List<CommentResponseDto>>builder()
+        Page<Comment> commentPageList = commentRepository.findAllByUsersIdAndDeletedAtIsNull(id, pageable);
+        if (commentPageList.isEmpty()) {
+            return HttpApiResponse.<Page<CommentResponseDto>>builder()
                     .success(false)
                     .message("Comment list is empty")
                     .responseCode(HttpStatus.NOT_FOUND.value())
                     .status(HttpStatus.NOT_FOUND)
                     .build();
         }
-
-        return HttpApiResponse.<List<CommentResponseDto>>builder()
+        Page<CommentResponseDto> responseDtoPage = commentPageList.map(commentMapper::toDto);
+        return HttpApiResponse.<Page<CommentResponseDto>>builder()
                 .success(true)
                 .message("OK")
                 .responseCode(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
-                .content(optionalList.get().stream().map(commentMapper::toDto).toList())
+                .content(responseDtoPage)
                 .build();
     }
 

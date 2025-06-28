@@ -119,7 +119,7 @@ public class ProductServiceImpl implements ProductService {
         Seller seller = productValidation.getSellerOrThrow(sellerId);
         Page<Product> productPageList = productRepository.findAllBySellerIdAndDeletedAtIsNull(sellerId, pageable);
         if (productPageList.isEmpty()) {
-            return ResponseUtils.buildNotFoundResponse("ProductBy Seller ID", sellerId);
+            return ResponseUtils.buildNotFoundResponse("ProductList is empty with SellerId:", sellerId);
         }
 
         Page<ProductResponseDto> dtoPage = productPageList.map(productMapper::toResponseDto);

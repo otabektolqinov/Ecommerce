@@ -5,6 +5,8 @@ import com.company.ecommerce.dto.request.CommentRequestDto;
 import com.company.ecommerce.dto.response.CommentResponseDto;
 import com.company.ecommerce.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,18 +29,24 @@ public class CommentController {
 
 
     @GetMapping("/by-productId/{id}")
-    public ResponseEntity<HttpApiResponse<List<CommentResponseDto>>> getAllCommentByProductId(
-            @PathVariable Long id
+    public ResponseEntity<HttpApiResponse<Page<CommentResponseDto>>> getAllCommentByProductId(
+            @PathVariable Long id,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer sizNumber
     ) {
-        HttpApiResponse<List<CommentResponseDto>> response = commentService.getAllCommentByProductId(id);
+        HttpApiResponse<Page<CommentResponseDto>> response
+                = commentService.getAllCommentByProductId(id, PageRequest.of(pageNumber, sizNumber));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/by-userId/{id}")
-    public ResponseEntity<HttpApiResponse<List<CommentResponseDto>>> getAllCommentByUserId(
-            @PathVariable Long id
+    public ResponseEntity<HttpApiResponse<Page<CommentResponseDto>>> getAllCommentByUserId(
+            @PathVariable Long id,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer sizNumber
     ) {
-        HttpApiResponse<List<CommentResponseDto>> response = commentService.getAllCommentByUserId(id);
+        HttpApiResponse<Page<CommentResponseDto>> response
+                = commentService.getAllCommentByUserId(id, PageRequest.of(pageNumber, sizNumber));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
