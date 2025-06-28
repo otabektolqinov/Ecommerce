@@ -1,5 +1,6 @@
 package com.company.ecommerce.service.validation;
 
+import com.company.ecommerce.domain.Product;
 import com.company.ecommerce.dto.ErrorDto;
 import com.company.ecommerce.dto.request.CartItemRequestDto;
 import com.company.ecommerce.repository.ProductRepository;
@@ -18,7 +19,7 @@ public class CartItemValidation {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
-    public Optional<ErrorDto> validateCartItem(Long prodId, Long userId){
+    public Optional<ErrorDto> validateCartItem(Long prodId, Long userId, Integer quantity){
         boolean userExists = userRepository.existsById(userId);
         if (!userExists) {
             return Optional.of(new ErrorDto(
@@ -28,14 +29,21 @@ public class CartItemValidation {
             ));
         }
 
-        boolean productExists = productRepository.existsById(prodId);
-        if (!productExists) {
+        Optional<Product> productExists = productRepository.findByIdAndDeletedAtIsNull(prodId);
+        if (productExists.isEmpty()) {
             return Optional.of(new ErrorDto(
                     "/cart-item",
                     String.format("Product with %d id is not found", prodId),
                     HttpStatus.NOT_FOUND.value()
             ));
         }
+
+        if (productExists.get().getQuantity() < quantity)
+            return Optional.of(new ErrorDto(
+                    "/cart-item",
+                    "Not enough products",
+                    HttpStatus.NOT_FOUND.value()
+            ));
 
         return Optional.empty();
     }

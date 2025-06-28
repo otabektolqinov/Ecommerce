@@ -1,9 +1,6 @@
 package com.company.ecommerce.service.impl;
 
-import com.company.ecommerce.domain.CartItem;
-import com.company.ecommerce.domain.OrderItem;
-import com.company.ecommerce.domain.Orders;
-import com.company.ecommerce.domain.Payment;
+import com.company.ecommerce.domain.*;
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.OrderRequestDto;
 import com.company.ecommerce.dto.response.OrderResponseDto;
@@ -40,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
     private final OrderItemRepository orderItemRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     @Override
@@ -60,11 +58,26 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .map(cartItem -> {
                     OrderItem orderItem = new OrderItem();
+                    Product product = productRepository
+                            .findByIdAndDeletedAtIsNull(cartItem.getProduct().getId())
+                            .orElseThrow(() -> new RuntimeException("Product not found or deleted"));
+
+                    // Product quantity ni kamaytirish
+                    int currentStock = product.getQuantity();
+                    int orderedQuantity = cartItem.getQuantity();
+                    if (orderedQuantity > currentStock) {
+                        throw new IllegalArgumentException("Not enough stock for product: " + product.getName());
+                    }
+
+                    product.setQuantity(currentStock - orderedQuantity);
+                    productRepository.save(product); // updated productni saqlash
+
                     orderItem.setProduct(cartItem.getProduct());
                     orderItem.setQuantity(cartItem.getQuantity());
                     orderItem.setOrders(saved);
                     double priceAtTime = cartItem.getProduct().getPrice();
                     orderItem.setPriceAtTime(priceAtTime);
+
                     return orderItem;
                 })
                 .collect(Collectors.toList());
@@ -126,6 +139,7 @@ public class OrderServiceImpl implements OrderService {
                     .responseCode(HttpStatus.NO_CONTENT.value())
                     .success(true)
                     .build();
+
 
         List<OrderResponseDto> dtoList = orderMapper.toDtoList(orders);
 
