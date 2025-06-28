@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface SellerService {
-    HttpApiResponse<SellerResponseDto> createSeller(SellerRequestDto request, MultipartFile logo) throws JsonProcessingException;
+    HttpApiResponse<SellerResponseDto> createSeller(SellerRequestDto request);
 
     HttpApiResponse<SellerResponseDto> getSellerById(Long id);
 

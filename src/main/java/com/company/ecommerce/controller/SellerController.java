@@ -20,12 +20,12 @@ public class SellerController {
     private final SellerService sellerService;
     private final ObjectMapper objectMapper;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<HttpApiResponse<SellerResponseDto>> createSeller(
-            @RequestPart String sellerJson,
-            @RequestPart MultipartFile logo) throws JsonProcessingException {
-        SellerRequestDto request = objectMapper.readValue(sellerJson, SellerRequestDto.class);
-        HttpApiResponse<SellerResponseDto> response = sellerService.createSeller(request, logo);
+    @PostMapping
+    public ResponseEntity<HttpApiResponse<SellerResponseDto>> createSeller
+            (
+                    @RequestBody SellerRequestDto requestDto
+            ) {
+        HttpApiResponse<SellerResponseDto> response = sellerService.createSeller(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -54,7 +54,20 @@ public class CommentServiceImpl implements CommentService {
         entity.setProduct(product);
         entity.setUsers(user);
 
-        product.getComments().add(entity);
+        product.getComments().add(entity); // Add new comment
+
+        int totalRating = 0;
+        int commentCount = product.getComments().size();
+
+        for (Comment comment : product.getComments()) {
+            totalRating += comment.getRating() != null ? comment.getRating() : 0;
+        }
+
+        float averageRating = commentCount > 0 ? (float) totalRating / commentCount : 0;
+
+        product.setRating(averageRating);
+
+
         user.getCommentList().add(entity);
 
         commentRepository.save(entity);
