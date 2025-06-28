@@ -18,10 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -77,7 +74,7 @@ public class ProductFileServiceImpl implements ProductFileService {
         }
 
         Product product = optionalProduct.get();
-        List<ProductFile> productFiles = product.getProductFiles();
+        Set<ProductFile> productFiles = product.getProductFiles();
 
         List<ProductFileResponseDto> dtos = productFiles.stream()
                 .map(productFileMapper::toResponseDto)

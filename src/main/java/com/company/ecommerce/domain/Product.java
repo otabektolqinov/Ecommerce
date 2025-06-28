@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,7 +33,7 @@ public class Product extends BaseEntity {
             cascade = CascadeType.ALL,
             mappedBy = "product"
     )
-    private List<Comment> comments;
+    private Set<Comment> comments;
 
 
     @ManyToOne
@@ -45,7 +46,7 @@ public class Product extends BaseEntity {
             cascade = CascadeType.ALL,
             mappedBy = "product"
     )
-    private List<ProductFile> productFiles;
+    private Set<ProductFile> productFiles;
 
 
 }

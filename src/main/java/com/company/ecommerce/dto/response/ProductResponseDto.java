@@ -6,6 +6,7 @@ import com.company.ecommerce.domain.ProductFile;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponseDto {
+    private Long id;
     private String name;
     private String description;
     private Double price;
@@ -20,6 +22,6 @@ public class ProductResponseDto {
     private Float rating;
     private Long sellerId;
     private Long categoryId;
-    private List<CommentResponseDto> comments;
-    private List<ProductFileResponseDto> productFiles;
+    private Set<CommentResponseDto> comments;
+    private Set<ProductFileResponseDto> productFiles;
 }

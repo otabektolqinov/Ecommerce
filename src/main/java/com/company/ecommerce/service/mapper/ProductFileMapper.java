@@ -10,10 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface ProductFileMapper {
 
+    @Named(value = "toResponseDto")
     ProductFileResponseDto toResponseDto(ProductFile productFile);
 
     @Named("toProductFile")
@@ -27,4 +29,7 @@ public interface ProductFileMapper {
 
     @IterableMapping(qualifiedByName = "toProductFile")
     List<ProductFile> toEntityList(List<MultipartFile> files);
+
+    @IterableMapping(qualifiedByName = "toResponseDto")
+    Set<ProductFileResponseDto> toResponseDtoList(Set<ProductFile> productFiles);
 }
