@@ -4,9 +4,12 @@ import com.company.ecommerce.domain.Product;
 import com.company.ecommerce.dto.request.ProductRequestDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
 import org.mapstruct.*;
+import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = {CommentMapper.class})
 public interface ProductMapper {
+    CommentMapper commentMapper = Mappers.getMapper(CommentMapper.class);
+    ProductFileMapper productFileMapper = Mappers.getMapper(ProductFileMapper.class);
 
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "productFiles", ignore = true)
@@ -18,6 +21,8 @@ public interface ProductMapper {
 
     @Mapping(target = "sellerId", expression = "java(entity.getSeller().getId())")
     @Mapping(target = "categoryId", expression = "java(entity.getCategory().getId())")
+    @Mapping(target = "comments", expression = "java(commentMapper.toDtoSet(entity.getComments()))")
+    @Mapping(target = "productFiles", expression = "java(productFileMapper.toResponseDtoList(entity.getProductFiles()))")
     ProductResponseDto toResponseDto(Product entity);
 
     @Mapping(target = "category", ignore = true)

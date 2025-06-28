@@ -15,6 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<List<Product>> findAllByCategoryNameAndDeletedAtIsNull(String categoryName);
     @EntityGraph(
            attributePaths = {"comments","productFiles"}
+
     )
     Optional<List<Product>> findAllBySellerIdAndDeletedAtIsNull(Long id);
 }

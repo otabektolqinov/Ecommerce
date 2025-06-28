@@ -15,6 +15,7 @@ import com.company.ecommerce.service.validation.ProductValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -31,21 +32,20 @@ public class ProductServiceImpl implements ProductService {
     private final ProductValidation productValidation;
 
     @Override
-    public HttpApiResponse<ProductResponseDto> createProduct(ProductRequestDto productRequestDto) {
-        Product product = productMapper.toEntity(productRequestDto);
-        Category category = productValidation.categoryExist(productRequestDto.getCategoryId());
-        Seller seller = productValidation.sellerExist(productRequestDto.getSellerId());
-        if (category == null && seller == null) {
-            return HttpApiResponse.<ProductResponseDto>builder()
-                    .success(false)
-                    .message("Unable to upload product")
-                    .status(HttpStatus.BAD_REQUEST)
-                    .responseCode(HttpStatus.BAD_REQUEST.value())
-                    .build();
-        }
+    @Transactional
+    public HttpApiResponse<ProductResponseDto> createProduct(ProductRequestDto requestDto) {
+        Category category = productValidation.getCategoryOrThrow(requestDto.getCategoryId());
+        Seller seller = productValidation.getSellerOrThrow(requestDto.getSellerId());
 
+        Product product = productMapper.toEntity(requestDto);
+        product.setCategory(category);
+        product.setSeller(seller);
+
+         category.getProducts().add(product);
+         seller.getProducts().add(product);
 
         Product saved = productRepository.save(product);
+
         return HttpApiResponse.<ProductResponseDto>builder()
                 .success(true)
                 .message("Product saved successfully")
@@ -54,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
                 .content(productMapper.toResponseDto(saved))
                 .build();
     }
+
 
     @Override
     public HttpApiResponse<ProductResponseDto> getProductById(Long id) {
@@ -94,15 +95,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public HttpApiResponse<List<ProductResponseDto>> getAllProductBySellerId(Long sellerId) {
-        Seller seller = productValidation.sellerExist(sellerId);
+        Seller seller = productValidation.getSellerOrThrow(sellerId);
         Optional<List<Product>> optionalProductList = productRepository.findAllBySellerIdAndDeletedAtIsNull(sellerId);
-        if (seller == null) {
-            return ResponseUtils.buildNotFoundResponse("Seller", sellerId);
-        }
         if (optionalProductList.isEmpty()) {
             return ResponseUtils.buildNotFoundResponse("ProductBy Seller ID", sellerId);
         }
-
+        System.out.println(optionalProductList.get());
         return HttpApiResponse.<List<ProductResponseDto>>builder()
                 .success(true)
                 .message("OK")
