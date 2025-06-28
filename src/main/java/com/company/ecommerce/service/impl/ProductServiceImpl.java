@@ -13,6 +13,8 @@ import com.company.ecommerce.service.mapper.ProductMapper;
 import com.company.ecommerce.service.utils.ResponseUtils;
 import com.company.ecommerce.service.validation.ProductValidation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +43,8 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
         product.setSeller(seller);
 
-         category.getProducts().add(product);
-         seller.getProducts().add(product);
+        category.getProducts().add(product);
+        seller.getProducts().add(product);
 
         float totalRating = 0;
         int productCount = seller.getProducts().size();
@@ -84,10 +86,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public HttpApiResponse<List<ProductResponseDto>> getAllProductByCategoryName(String categoryName) {
-        Optional<List<Product>> allProduct = productRepository.findAllByCategoryNameAndDeletedAtIsNull(categoryName);
+    public HttpApiResponse<Page<ProductResponseDto>> getAllProductByCategoryName(
+            String categoryName,
+            Pageable pageable
+    ) {
+        Page<Product> allProduct = productRepository.findAllByCategoryNameAndDeletedAtIsNull(categoryName, pageable);
         if (allProduct.isEmpty()) {
-            return HttpApiResponse.<List<ProductResponseDto>>builder()
+            return HttpApiResponse.<Page<ProductResponseDto>>builder()
                     .success(false)
                     .message("Products not found")
                     .responseCode(HttpStatus.NOT_FOUND.value())
@@ -95,29 +100,35 @@ public class ProductServiceImpl implements ProductService {
                     .build();
         }
 
-        return HttpApiResponse.<List<ProductResponseDto>>builder()
+        Page<ProductResponseDto> dtoPage = allProduct.map(productMapper::toResponseDto);
+
+        return HttpApiResponse.<Page<ProductResponseDto>>builder()
                 .success(true)
                 .message("OK")
                 .responseCode(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
-                .content(allProduct.get().stream().map(productMapper::toResponseDto).toList())
+                .content(dtoPage)
                 .build();
     }
 
     @Override
-    public HttpApiResponse<List<ProductResponseDto>> getAllProductBySellerId(Long sellerId) {
+    public HttpApiResponse<Page<ProductResponseDto>> getAllProductBySellerId(
+            Long sellerId,
+            Pageable pageable
+    ) {
         Seller seller = productValidation.getSellerOrThrow(sellerId);
-        Optional<List<Product>> optionalProductList = productRepository.findAllBySellerIdAndDeletedAtIsNull(sellerId);
-        if (optionalProductList.isEmpty()) {
+        Page<Product> productPageList = productRepository.findAllBySellerIdAndDeletedAtIsNull(sellerId, pageable);
+        if (productPageList.isEmpty()) {
             return ResponseUtils.buildNotFoundResponse("ProductBy Seller ID", sellerId);
         }
-        System.out.println(optionalProductList.get());
-        return HttpApiResponse.<List<ProductResponseDto>>builder()
+
+        Page<ProductResponseDto> dtoPage = productPageList.map(productMapper::toResponseDto);
+        return HttpApiResponse.<Page<ProductResponseDto>>builder()
                 .success(true)
                 .message("OK")
                 .responseCode(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
-                .content(optionalProductList.get().stream().map(productMapper::toResponseDto).toList())
+                .content(dtoPage)
                 .build();
     }
 

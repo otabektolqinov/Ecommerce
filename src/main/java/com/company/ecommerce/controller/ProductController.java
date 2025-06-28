@@ -7,6 +7,8 @@ import com.company.ecommerce.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,14 +39,26 @@ public class ProductController {
     }
 
     @GetMapping("/categoryName/{categoryName}")
-    public ResponseEntity<HttpApiResponse<List<ProductResponseDto>>> getAllProductByCategoryName(@PathVariable String categoryName) {
-        HttpApiResponse<List<ProductResponseDto>> response = productService.getAllProductByCategoryName(categoryName);
+    public ResponseEntity<HttpApiResponse<Page<ProductResponseDto>>> getAllProductByCategoryName
+            (@PathVariable String categoryName,
+             @RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber,
+             @RequestParam(value = "size", required = false, defaultValue = "10") Integer sizNumber
+            ) {
+        HttpApiResponse<Page<ProductResponseDto>> response
+                = productService.getAllProductByCategoryName(
+                categoryName,
+                PageRequest.of(pageNumber, sizNumber));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/sellerId/{sellerId}")
-    public ResponseEntity<HttpApiResponse<List<ProductResponseDto>>> getAllProductBySellerId(@PathVariable Long sellerId) {
-        HttpApiResponse<List<ProductResponseDto>> response = productService.getAllProductBySellerId(sellerId);
+    public ResponseEntity<HttpApiResponse<Page<ProductResponseDto>>> getAllProductBySellerId(
+            @PathVariable Long sellerId,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(value = "size", required = false, defaultValue = "10") Integer sizNumber
+    ) {
+        HttpApiResponse<Page<ProductResponseDto>> response
+                = productService.getAllProductBySellerId(sellerId, PageRequest.of(pageNumber, sizNumber));
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

@@ -3,6 +3,8 @@ package com.company.ecommerce.service;
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.ProductRequestDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,9 +16,9 @@ public interface ProductService {
 
     HttpApiResponse<ProductResponseDto> getProductById(Long id);
 
-    HttpApiResponse<List<ProductResponseDto>> getAllProductByCategoryName(String categoryName);
+    HttpApiResponse<Page<ProductResponseDto>> getAllProductByCategoryName(String categoryName, Pageable pageable);
 
-    HttpApiResponse<List<ProductResponseDto>> getAllProductBySellerId(Long sellerId);
+    HttpApiResponse<Page<ProductResponseDto>> getAllProductBySellerId(Long sellerId, Pageable pageable);
 
     HttpApiResponse<ProductResponseDto> updateProduct(ProductRequestDto productRequestDto, Long id);
 
