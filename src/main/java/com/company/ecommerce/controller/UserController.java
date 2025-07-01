@@ -4,6 +4,7 @@ import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.UserRequestDto;
 import com.company.ecommerce.dto.response.UserResponseDto;
 import com.company.ecommerce.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<HttpApiResponse<UserResponseDto>> createUser(@RequestBody UserRequestDto dto){
+    public ResponseEntity<HttpApiResponse<UserResponseDto>> createUser(@RequestBody @Valid UserRequestDto dto){
         HttpApiResponse<UserResponseDto> response = userService.createUser(dto);
         return ResponseEntity.status(response.getStatus()).body(response);
     }

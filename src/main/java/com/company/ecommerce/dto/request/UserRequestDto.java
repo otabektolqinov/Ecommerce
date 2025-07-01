@@ -2,6 +2,7 @@ package com.company.ecommerce.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -14,23 +15,18 @@ import java.time.LocalDate;
 @Builder
 public class UserRequestDto {
 
-    @NotNull(message = "Firstname cannot be null")
-    @NotBlank(message = "Firstname Cannot be Blank")
+    @NotBlank(message = "Firstname Cannot be Blank, Null or Empty")
     private String firstName;
-    @NotNull(message = "LastName cannot be null")
-    @NotBlank(message = "Lastname Cannot be Blank")
+    @NotBlank(message = "Lastname Cannot be Blank, Null or Empty")
     private String lastName;
-    @NotNull(message = "PhoneNumber cannot be null")
-    @NotBlank(message = "PhoneNumber cannot be Blank")
+    @NotBlank(message = "PhoneNumber cannot be Blank, Null or Empty")
     private String phoneNumber;
-    @NotNull(message = "Email cannot be null")
-    @NotBlank(message = "Email Cannot be Blank")
+    @NotBlank(message = "Email Cannot be Blank, Null or Empty")
     @Email(message = "Incorrect email format. Please check your email")
     private String email;
     @NotNull(message = "GenderIndex cannot be null")
     private Integer genderIndex;
     @NotNull(message = "Birthday cannot be null")
-
     private LocalDate birthday;
 
 }

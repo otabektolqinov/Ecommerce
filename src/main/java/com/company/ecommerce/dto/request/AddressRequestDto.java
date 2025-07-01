@@ -12,20 +12,15 @@ import lombok.*;
 @Builder
 public class AddressRequestDto {
 
-    @NotNull(message = "Region cannot be null")
-    @NotBlank(message = "Region cannot be blank")
+    @NotBlank(message = "Region cannot be blank, empty or null")
     private String region;
-    @NotNull(message = "City cannot be null")
-    @NotBlank(message = "City cannot be blank")
+    @NotBlank(message = "City cannot be blank, empty or null")
     private String city;
-    @NotNull(message = "District cannot be null")
-    @NotBlank(message = "District cannot be blank")
+    @NotBlank(message = "District cannot be blank, empty or null")
     private String district;
-    @NotNull(message = "Street cannot be null")
-    @NotBlank(message = "Street cannot be blank")
+    @NotBlank(message = "Street cannot be blank, empty or null")
     private String street;
-    @NotNull(message = "HouseNumber cannot be null")
-    @NotBlank(message = "HouseNumber cannot be blank")
+    @NotBlank(message = "HouseNumber cannot be blank, empty or null")
     private String homeNumber;
     @NotNull(message = "AddressType cannot be null")
     @PositiveOrZero(message = "Address Type Index should be 0 or 1")

@@ -35,9 +35,9 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public HttpApiResponse<CartItemResponseDto> createCartItem(Long prodId, Integer quantity, Long userId) {
         Optional<ErrorDto> errorDto = cartValidation.validateCartItem(prodId, userId, quantity);
-        if (!errorDto.isEmpty()) {
+        if (errorDto.isPresent()) {
             return HttpApiResponse.<CartItemResponseDto>builder()
-                    .errors(errorDto.get())
+                    .errors(List.of(errorDto.get()))
                     .responseCode(HttpStatus.NOT_FOUND.value())
                     .status(HttpStatus.NOT_FOUND)
                     .success(false)

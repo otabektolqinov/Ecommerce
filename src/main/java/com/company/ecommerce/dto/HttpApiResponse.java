@@ -17,5 +17,5 @@ public class HttpApiResponse<T> {
     private int responseCode;
     private HttpStatus status;
     private T content;
-    private ErrorDto errors;
+    private List<ErrorDto> errors;
 }
