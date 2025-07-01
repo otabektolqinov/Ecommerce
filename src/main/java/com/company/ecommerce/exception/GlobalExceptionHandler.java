@@ -4,6 +4,7 @@ import com.company.ecommerce.dto.ErrorDto;
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    private final ObjectMapper objectMapper;
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ResponseEntity<HttpApiResponse<Void>> entityNotFoundExceptionHandler(EntityNotFoundException e) {
+        return ResponseEntity.status (HttpStatus.NOT_FOUND)
+                .body (HttpApiResponse.<Void>builder ()
+                        .responseCode (HttpStatus.NOT_FOUND.value ())
+                        .message (e.getMessage ())
+                        .status (HttpStatus.NOT_FOUND)
+                        .build ());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<HttpApiResponse<Void>> methodArgumentNotValidException(
             MethodArgumentNotValidException ex
-    ) throws JsonProcessingException {
+    ){
         List<ErrorDto> errors = new ArrayList<>();
 
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
