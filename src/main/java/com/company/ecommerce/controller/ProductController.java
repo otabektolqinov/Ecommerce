@@ -4,6 +4,7 @@ import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.ProductRequestDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
 import com.company.ecommerce.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<HttpApiResponse<ProductResponseDto>> createProduct(
-            @RequestBody ProductRequestDto productRequestDto
+            @RequestBody @Valid ProductRequestDto productRequestDto
     ) {
         HttpApiResponse<ProductResponseDto> response = productService.createProduct(productRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

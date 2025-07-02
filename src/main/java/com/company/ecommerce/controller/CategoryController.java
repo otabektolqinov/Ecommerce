@@ -4,6 +4,7 @@ import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.CategoryRequestDto;
 import com.company.ecommerce.dto.response.CategoryResponseDto;
 import com.company.ecommerce.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<HttpApiResponse<CategoryResponseDto>> createCategory(
-            @RequestBody CategoryRequestDto dto
+            @RequestBody @Valid CategoryRequestDto dto
     ) {
         HttpApiResponse<CategoryResponseDto> response = categoryService.createCategory(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

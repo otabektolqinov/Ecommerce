@@ -4,6 +4,7 @@ import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.CommentRequestDto;
 import com.company.ecommerce.dto.response.CommentResponseDto;
 import com.company.ecommerce.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,7 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<HttpApiResponse<CommentResponseDto>> createComment(
-            @RequestBody CommentRequestDto dto
+            @RequestBody @Valid CommentRequestDto dto
     ) {
         HttpApiResponse<CommentResponseDto> response = commentService.createComment(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

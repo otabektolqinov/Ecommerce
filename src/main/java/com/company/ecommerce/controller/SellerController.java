@@ -6,6 +6,7 @@ import com.company.ecommerce.dto.response.SellerResponseDto;
 import com.company.ecommerce.service.SellerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +24,7 @@ public class SellerController {
     @PostMapping
     public ResponseEntity<HttpApiResponse<SellerResponseDto>> createSeller
             (
-                    @RequestBody SellerRequestDto requestDto
+                    @RequestBody @Valid SellerRequestDto requestDto
             ) {
         HttpApiResponse<SellerResponseDto> response = sellerService.createSeller(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
