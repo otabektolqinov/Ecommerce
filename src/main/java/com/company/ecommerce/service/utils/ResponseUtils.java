@@ -5,6 +5,8 @@ import com.company.ecommerce.dto.ErrorDto;
 import com.company.ecommerce.dto.HttpApiResponse;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 public final class ResponseUtils {
 
     private ResponseUtils() {
@@ -18,11 +20,11 @@ public final class ResponseUtils {
                 .responseCode(HttpStatus.NOT_FOUND.value())
                 .status(HttpStatus.NOT_FOUND)
                 .message(message)
-                .errors(new ErrorDto(
+                .errors(List.of(new ErrorDto(
                         entityName.toLowerCase(),
                         message,
                         HttpStatus.NOT_FOUND.value()
-                ))
+                )))
                 .build();
     }
 }
