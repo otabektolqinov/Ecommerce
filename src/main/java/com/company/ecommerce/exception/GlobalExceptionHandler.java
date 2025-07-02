@@ -2,8 +2,6 @@ package com.company.ecommerce.exception;
 
 import com.company.ecommerce.dto.ErrorDto;
 import com.company.ecommerce.dto.HttpApiResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
