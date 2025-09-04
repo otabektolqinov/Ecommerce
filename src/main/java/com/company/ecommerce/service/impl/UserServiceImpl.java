@@ -1,10 +1,12 @@
 package com.company.ecommerce.service.impl;
 
+import com.company.ecommerce.domain.AuthUser;
 import com.company.ecommerce.domain.Users;
 import com.company.ecommerce.dto.ErrorDto;
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.UserRequestDto;
 import com.company.ecommerce.dto.response.UserResponseDto;
+import com.company.ecommerce.repository.AuthUserRepository;
 import com.company.ecommerce.repository.UserRepository;
 import com.company.ecommerce.service.UserService;
 import com.company.ecommerce.service.mapper.UserMapper;
@@ -12,6 +14,7 @@ import com.company.ecommerce.service.utils.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -24,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
+    @Transactional
     public HttpApiResponse<UserResponseDto> createUser(UserRequestDto dto) {
         Users entity = userMapper.toEntity(dto);
         Users saved = userRepository.save(entity);

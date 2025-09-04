@@ -19,11 +19,11 @@ public class UserRequestDto {
     private String firstName;
     @NotBlank(message = "Lastname Cannot be Blank, Null or Empty")
     private String lastName;
-    @NotBlank(message = "PhoneNumber cannot be Blank, Null or Empty")
-    private String phoneNumber;
     @NotBlank(message = "Email Cannot be Blank, Null or Empty")
     @Email(message = "Incorrect email format. Please check your email")
     private String email;
+    @NotBlank(message = "Phone number Cannot be Blank, Null or Empty")
+    private String phoneNumber;
     @NotNull(message = "GenderIndex cannot be null")
     private Integer genderIndex;
     @NotNull(message = "Birthday cannot be null")
