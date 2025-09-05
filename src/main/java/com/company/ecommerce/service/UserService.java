@@ -5,6 +5,8 @@ import com.company.ecommerce.dto.request.UserRequestDto;
 import com.company.ecommerce.dto.response.UserResponseDto;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface UserService {
 
@@ -12,5 +14,6 @@ public interface UserService {
     HttpApiResponse<UserResponseDto> getUsersById(Long id);
     HttpApiResponse<UserResponseDto> updateUserById(Long id, UserRequestDto dto);
     HttpApiResponse<String> deleteUserById(Long id);
+    HttpApiResponse<List<UserResponseDto>> getAll();
 
 }

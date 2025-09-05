@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -92,6 +93,16 @@ public class UserServiceImpl implements UserService {
                 .status(HttpStatus.OK)
                 .responseCode(HttpStatus.OK.value())
                 .success(true)
+                .build();
+    }
+
+    @Override
+    public HttpApiResponse<List<UserResponseDto>> getAll() {
+        List<Users> all = userRepository.findAllByDeletedAtIsNull();
+
+        return HttpApiResponse.<List<UserResponseDto>>builder()
+                .content(all.stream().map(userMapper::toDto).toList())
+                .status(HttpStatus.OK)
                 .build();
     }
 }
