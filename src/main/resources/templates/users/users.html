@@ -8,13 +8,14 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Actions</th>
+            <th>ID</th><th>Firstname</th><th>Lastname</th><th>Email</th><th>Phone</th><th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.phoneNumber}"></td>
             <td>
@@ -25,7 +26,7 @@
                 <button class="btn btn-sm btn-danger"
                         hx-target="closest tr"
                         hx-swap="outerHTML"
-                        th:onclick="|confirmDelete(${user.id}, this)|">
+                        th:onclick="|confirmDelete('users', ${user.id}, this)|">
                     Delete
                 </button>
                 <!--<button class="btn btn-sm btn-danger"

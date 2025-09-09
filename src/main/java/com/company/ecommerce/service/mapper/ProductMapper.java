@@ -2,6 +2,7 @@ package com.company.ecommerce.service.mapper;
 
 import com.company.ecommerce.domain.Product;
 import com.company.ecommerce.dto.request.ProductRequestDto;
+import com.company.ecommerce.dto.response.ProductMvcResponseDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -12,6 +13,8 @@ import java.util.Set;
 public interface ProductMapper {
     CommentMapper commentMapper = Mappers.getMapper(CommentMapper.class);
     ProductFileMapper productFileMapper = Mappers.getMapper(ProductFileMapper.class);
+    SellerMapper sellerMapper = Mappers.getMapper(SellerMapper.class);
+    CategoryMapper categoryMapper = Mappers.getMapper(CategoryMapper.class);
 
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "productFiles", ignore = true)
@@ -26,6 +29,10 @@ public interface ProductMapper {
     @Mapping(target = "comments", expression = "java(commentMapper.toDtoSet(entity.getComments()))")
     @Mapping(target = "productFiles", expression = "java(productFileMapper.toResponseDtoList(entity.getProductFiles()))")
     ProductResponseDto toResponseDto(Product entity);
+
+    @Mapping(target = "seller", expression = "java(sellerMapper.toDto(product.getSeller()))")
+    @Mapping(target = "category", expression = "java(categoryMapper.toDto(product.getCategory()))")
+    ProductMvcResponseDto toDto(Product product);
 
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "productFiles", ignore = true)

@@ -14,6 +14,9 @@ public interface CategoryMapper {
     CategoryResponseDto toDto(Category category);
 
     @Mapping(target = "products", ignore = true)
+    CategoryResponseDto toResponseDto(Category category);
+
+    @Mapping(target = "products", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Category updateEntity(CategoryRequestDto dto, @MappingTarget Category category);
 }

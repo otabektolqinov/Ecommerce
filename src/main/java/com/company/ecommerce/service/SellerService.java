@@ -7,6 +7,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URLConnection;
+import java.util.List;
+
 @Service
 public interface SellerService {
     HttpApiResponse<SellerResponseDto> createSeller(SellerRequestDto request);
@@ -17,4 +20,5 @@ public interface SellerService {
 
     HttpApiResponse<String> deleteSellerById(Long id);
 
+    HttpApiResponse<List<SellerResponseDto>> getAll();
 }

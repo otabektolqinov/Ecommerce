@@ -16,6 +16,11 @@ public interface SellerMapper {
     @Mapping(target = "sellerLogo", expression = ("java(sellerLogoMapper.mapToResponse(seller.getSellerLogo()))"))
     SellerResponseDto mapToSellerResponse(Seller seller);
 
+    @Mapping(target = "products", ignore = true)
+    @Mapping(target = "sellerLogo", ignore = true)
+    @Mapping(target = "id", source = "id")
+    SellerResponseDto toDto(Seller seller);
+
 
     @Mapping(target = "commentCount", ignore = true)
     @Mapping(target = "orderCount", ignore = true)

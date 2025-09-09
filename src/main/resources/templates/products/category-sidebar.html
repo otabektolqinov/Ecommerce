@@ -1,0 +1,20 @@
+<div th:fragment="category-sidebar">
+    <h5>Categories</h5>
+    <ul class="list-group mb-3">
+        <li class="list-group-item">
+            <a hx-get="/admin/products/get-all"
+               hx-target="#main-content"
+               hx-swap="innerHTML">All</a>
+        </li>
+        <li th:each="category : ${categories}" class="list-group-item">
+            <a th:hx-get="@{/admin/products/category/{id}(id=${category.id})}"
+               hx-target="#main-content"
+               hx-swap="innerHTML"
+               th:text="${category.name}"></a>
+        </li>
+    </ul>
+    <button class="btn btn-sm btn-primary"
+            hx-get="/admin/categories/create"
+            hx-target="#main-content"
+            hx-swap="innerHTML">+ Add Category</button>
+</div>

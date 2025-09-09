@@ -6,6 +6,7 @@ import com.company.ecommerce.domain.ProductFile;
 import com.company.ecommerce.domain.Seller;
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.ProductRequestDto;
+import com.company.ecommerce.dto.response.ProductMvcResponseDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
 import com.company.ecommerce.repository.ProductRepository;
 import com.company.ecommerce.service.ProductService;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -153,6 +155,18 @@ public class ProductServiceImpl implements ProductService {
                 .message("Product deleted successfully")
                 .responseCode(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
+                .build();
+    }
+
+    @Override
+    public HttpApiResponse<List<ProductMvcResponseDto>> getAll() {
+        List<Product> products = productRepository.findAllByDeletedAtIsNull();
+
+        return HttpApiResponse.<List<ProductMvcResponseDto>>builder()
+                .responseCode(HttpStatus.OK.value())
+                .content(products.stream().map(productMapper :: toDto).collect(Collectors.toList()))
+                .status(HttpStatus.OK)
+                .message("OK")
                 .build();
     }
 }

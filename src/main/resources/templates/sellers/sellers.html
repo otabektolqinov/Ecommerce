@@ -1,0 +1,35 @@
+<div th:fragment="content">
+    <h2>Sellers</h2>
+    <button class="btn btn-primary mb-3"
+            hx-get="/admin/sellers/create"
+            hx-target="#main-content"
+            hx-swap="innerHTML">+ Add Seller</button>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th><th>Name</th><th>Phone</th><th>Description</th><th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="seller : ${sellers}">
+            <td th:text="${seller.id}"></td>
+            <td th:text="${seller.name}"></td>
+            <td th:text="${seller.phoneNumber}"></td>
+            <td th:text="${seller.description}"></td>
+            <td>
+                <button class="btn btn-sm btn-warning"
+                        th:hx-get="@{/admin/sellers/edit/{id}(id=${seller.id})}"
+                        hx-target="#main-content"
+                        hx-swap="innerHTML">Edit</button>
+                <button class="btn btn-sm btn-danger"
+                        hx-target="closest tr"
+                        hx-swap="outerHTML"
+                        th:onclick="|confirmDelete('sellers', ${seller.id}, this)|">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

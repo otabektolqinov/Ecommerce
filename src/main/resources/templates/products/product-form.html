@@ -1,0 +1,48 @@
+<div th:fragment="form">
+    <h2>Add Product</h2>
+    <form hx-post="/admin/products/create"
+          hx-target="#main-content"
+          hx-swap="innerHTML">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input type="text" name="description" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="number" name="price" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" name="quantity" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Seller</label>
+            <select class="form-select" name="sellerId" required>
+                <option th:each="s : ${sellers}" th:value="${s.id}" th:text="${s.name}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Category</label>
+            <select class="form-select" name="categoryId" required>
+                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary"
+                hx-get="/admin/products/get-all"
+                hx-target="#main-content"
+                hx-swap="innerHTML">Cancel</button>
+    </form>
+</div>

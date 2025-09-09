@@ -2,6 +2,7 @@ package com.company.ecommerce.service;
 
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.ProductRequestDto;
+import com.company.ecommerce.dto.response.ProductMvcResponseDto;
 import com.company.ecommerce.dto.response.ProductResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,5 +22,7 @@ public interface ProductService {
     HttpApiResponse<ProductResponseDto> updateProduct(ProductRequestDto productRequestDto, Long id);
 
     HttpApiResponse<String> deleteProductById(Long id);
+
+    HttpApiResponse<List<ProductMvcResponseDto>> getAll();
 
 }

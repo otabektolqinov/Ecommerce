@@ -1,0 +1,28 @@
+<div th:fragment="form">
+    <h2>Add Seller</h2>
+    <form hx-post="/admin/sellers/create"
+          hx-target="#main-content"
+          hx-swap="innerHTML">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text" name="phoneNumber" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input type="text" name="description" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary"
+                hx-get="/admin/sellers/get-all"
+                hx-target="#main-content"
+                hx-swap="innerHTML">Cancel</button>
+    </form>
+</div>

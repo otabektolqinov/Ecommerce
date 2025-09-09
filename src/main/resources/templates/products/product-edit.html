@@ -1,0 +1,33 @@
+<div th:fragment="form">
+    <h2>Add User</h2>
+    <form th:hx-post="@{/admin/products/edit/{id}(id=${product.id})}"
+          hx-target="#main-content"
+          hx-swap="innerHTML">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" th:value="${product.name}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <input type="text" name="description" class="form-control" th:value="${product.description}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="number" name="price" class="form-control" th:value="${product.price}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" name="phoneNumber" class="form-control" th:value="${product.quantity}">
+        </div>
+
+        <button type="submit" class="btn btn-success">Update</button>
+        <button type="button" class="btn btn-secondary"
+                hx-get="/admin/products/get-all"
+                hx-target="#main-content"
+                hx-swap="innerHTML">Cancel</button>
+    </form>
+</div>

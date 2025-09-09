@@ -14,6 +14,7 @@ import java.util.Set;
 @Builder
 public class SellerResponseDto {
 
+    private Long id;
     private String name;
     private String phoneNumber;
     private String description;

@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -86,6 +88,18 @@ public class SellerServiceImpl implements SellerService {
                 .success(true)
                 .message("Seller deleted successfully")
                 .status(HttpStatus.OK)
+                .responseCode(HttpStatus.OK.value())
+                .build();
+    }
+
+    @Override
+    public HttpApiResponse<List<SellerResponseDto>> getAll() {
+        List<Seller> sellers = sellerRepository.findAllByDeletedAtIsNullOrderByIdAsc();
+
+        return HttpApiResponse.<List<SellerResponseDto>>builder()
+                .content(sellers.stream().map(sellerMapper::toDto).collect(Collectors.toList()))
+                .status(HttpStatus.OK)
+                .message("OK")
                 .responseCode(HttpStatus.OK.value())
                 .build();
     }

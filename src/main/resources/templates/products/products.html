@@ -1,0 +1,59 @@
+<div th:fragment="content">
+    <div class="row">
+        <!-- chap tomonda category sidebar -->
+        <div class="col-3">
+            <div th:replace="products/category-sidebar :: category-sidebar"></div>
+        </div>
+
+        <!-- o‘ng tomonda product table -->
+        <div class="col-9">
+            <h2>Products</h2>
+
+            <!-- search bar -->
+            <form class="d-flex mb-3"
+                  hx-get="/admin/products/search"
+                  hx-target="#product-table"
+                  hx-swap="innerHTML">
+                <input type="text" name="query" class="form-control me-2" placeholder="Search products...">
+                <button type="submit" class="btn btn-outline-success">Search</button>
+            </form>
+
+            <button class="btn btn-primary mb-3"
+                    hx-get="/admin/products/create"
+                    hx-target="#main-content"
+                    hx-swap="innerHTML">+ Add Product</button>
+
+            <!-- table -->
+            <div id="product-table">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th><th>Name</th><th>Price</th><th>Seller</th><th>Category</th><th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.id}"></td>
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.seller.name}"></td>
+                        <td th:text="${product.category.name}"></td>
+                        <td>
+                            <button class="btn btn-sm btn-warning"
+                                    th:hx-get="@{/admin/products/edit/{id}(id=${product.id})}"
+                                    hx-target="#main-content"
+                                    hx-swap="innerHTML">Edit</button>
+                            <button class="btn btn-sm btn-danger"
+                                    hx-target="closest tr"
+                                    hx-swap="outerHTML"
+                                    th:onclick="|confirmDelete('products', ${product.id}, this)|">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

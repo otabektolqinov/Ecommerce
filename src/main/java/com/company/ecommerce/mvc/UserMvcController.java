@@ -1,4 +1,4 @@
-package com.company.ecommerce.mvc.admin;
+package com.company.ecommerce.mvc;
 
 import com.company.ecommerce.dto.request.UserRequestDto;
 import com.company.ecommerce.dto.response.UserResponseDto;
@@ -22,12 +22,12 @@ public class UserMvcController {
     public String users(Model model) {
         List<UserResponseDto> content = userService.getAll().getContent();
         model.addAttribute("users", content);
-        return "admin/users/users :: content";
+        return "users/users :: content";
     }
 
     @GetMapping("/create")
     public String createUserForm() {
-        return "admin/users/user-form :: form";
+        return "users/user-form :: form";
     }
 
     @PostMapping("/create")
@@ -35,7 +35,7 @@ public class UserMvcController {
                              Model model) {
         userService.createUser(dto);
         model.addAttribute("users", userService.getAll().getContent());
-        return "admin/users/users :: content";
+        return "users/users :: content";
     }
 
     @GetMapping("/edit/{id}")
@@ -44,14 +44,14 @@ public class UserMvcController {
         UserResponseDto content = userService.getUsersById(Long.parseLong(id)).getContent();
         model.addAttribute("user", content);
         model.addAttribute("id", id);
-        return "admin/users/user-edit :: form";
+        return "users/user-edit :: form";
     }
 
     @PostMapping("/edit/{id}")
     public String updateUser(@PathVariable Long id, @ModelAttribute UserRequestDto dto, Model model){
         userService.updateUserById(id, dto);
         model.addAttribute("users", userService.getAll().getContent());
-        return "admin/users/users :: content";
+        return "users/users :: content";
     }
 
     @DeleteMapping("/delete/{id}")

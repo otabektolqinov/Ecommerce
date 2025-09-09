@@ -25,13 +25,19 @@
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link text-white"
-               hx-get="/admin/products"
+               hx-get="/admin/sellers/get-all"
+               hx-target="#main-content"
+               hx-swap="innerHTML">Sellers</a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link text-white"
+               hx-get="/admin/products/get-all"
                hx-target="#main-content"
                hx-swap="innerHTML">Products</a>
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link text-white"
-               hx-get="/admin/orders"
+               hx-get="/admin/orders/get-all"
                hx-target="#main-content"
                hx-swap="innerHTML">Orders</a>
         </li>
@@ -45,7 +51,7 @@
 </div>
 
 <script>
-    function confirmDelete(userId, btn) {
+    function confirmDelete(entityType, entityId, btn) {
         Swal.fire({
             title: 'Are you sure?',
             text: 'This action cannot be undone.',
@@ -57,12 +63,12 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 const row = btn.closest('tr');
-                htmx.ajax('DELETE', `/admin/users/delete/${userId}`, {
+                htmx.ajax('DELETE', `/admin/${entityType}/delete/${entityId}`, {
                     target: row,
                     swap: 'outerHTML'
                 });
 
-                Swal.fire('Deleted!', 'The user has been deleted.', 'success');
+                Swal.fire('Deleted!', `The ${entityType.slice(0, -1)} has been deleted.`, 'success');
             }
         });
     }
