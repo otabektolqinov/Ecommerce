@@ -190,4 +190,29 @@ public class ProductServiceImpl implements ProductService {
                 .build();
 
     }
+
+    @Override
+    public HttpApiResponse<List<ProductMvcResponseDto>> getAllProductByCategoryId(Long id) {
+        List<ProductMvcResponseDto> content;
+        if (id == 0){
+            content = productRepository
+                    .findAllByDeletedAtIsNull()
+                    .stream()
+                    .map(productMapper :: toDto)
+                    .toList();
+        } else {
+            content = productRepository
+                    .findAllByCategory_IdAndDeletedAtIsNull(id)
+                    .stream()
+                    .map(productMapper :: toDto)
+                    .toList();
+        }
+
+        return HttpApiResponse.<List<ProductMvcResponseDto>>builder()
+                .responseCode(HttpStatus.OK.value())
+                .content(content)
+                .status(HttpStatus.OK)
+                .message("OK")
+                .build();
+    }
 }

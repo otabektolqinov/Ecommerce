@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,4 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByDeletedAtIsNull();
 
     List<Product> findByNameContainingIgnoreCase(String name);
+
+    List<Product> findAllByCategory_IdAndDeletedAtIsNull(Long id);
 }

@@ -2,13 +2,13 @@
     <h5>Categories</h5>
     <ul class="list-group mb-3">
         <li class="list-group-item">
-            <a hx-get="/admin/products/get-all"
-               hx-target="#main-content"
+            <a hx-get="/admin/products/category/filter/0"
+               hx-target="#product-table"
                hx-swap="innerHTML">All</a>
         </li>
         <li th:each="category : ${categories}" class="list-group-item">
-            <a th:hx-get="@{/admin/products/category/{id}(id=${category.id})}"
-               hx-target="#main-content"
+            <a th:hx-get="@{/admin/products/category/filter/{id}(id=${category.id})}"
+               hx-target="#product-table"
                hx-swap="innerHTML"
                th:text="${category.name}"></a>
         </li>

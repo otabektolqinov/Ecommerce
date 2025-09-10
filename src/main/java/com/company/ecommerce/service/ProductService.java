@@ -27,4 +27,6 @@ public interface ProductService {
     HttpApiResponse<List<ProductMvcResponseDto>> getAll();
 
     HttpApiResponse<List<ProductMvcResponseDto>> search(String search);
+
+    HttpApiResponse<List<ProductMvcResponseDto>> getAllProductByCategoryId(Long id);
 }
