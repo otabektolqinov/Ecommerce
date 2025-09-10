@@ -1,5 +1,6 @@
 package com.company.ecommerce.mvc;
 
+import com.company.ecommerce.dto.request.CategoryRequestDto;
 import com.company.ecommerce.dto.request.ProductRequestDto;
 import com.company.ecommerce.dto.response.CategoryResponseDto;
 import com.company.ecommerce.dto.response.ProductMvcResponseDto;
@@ -76,4 +77,22 @@ public class ProductMvcController {
         productService.deleteProductById(id);
         return ResponseEntity.ok().build();
     }
+
+    // Category
+
+    @GetMapping("/category/create")
+    public String createPage(){
+        return "products/category-form :: form";
+    }
+
+    @PostMapping("/category/create")
+    public String create(@ModelAttribute CategoryRequestDto dto, Model model){
+        categoryService.createCategory(dto);
+        List<ProductMvcResponseDto> content = productService.getAll().getContent();
+        List<CategoryResponseDto> categories = categoryService.getAllCategory().getContent();
+        model.addAttribute("products", content);
+        model.addAttribute("categories", categories);
+        return "products/products :: content";
+    }
+
 }
