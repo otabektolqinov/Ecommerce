@@ -169,4 +169,25 @@ public class ProductServiceImpl implements ProductService {
                 .message("OK")
                 .build();
     }
+
+    @Override
+    public HttpApiResponse<List<ProductMvcResponseDto>> search(String search) {
+        if (search != null && !search.isEmpty()) {
+            List<Product> products = productRepository.findByNameContainingIgnoreCase(search);
+            return HttpApiResponse.<List<ProductMvcResponseDto>>builder()
+                    .responseCode(HttpStatus.OK.value())
+                    .content(products.stream().map(productMapper :: toDto).collect(Collectors.toList()))
+                    .status(HttpStatus.OK)
+                    .message("OK")
+                    .build();
+        }
+        List<Product> all = productRepository.findAll();
+        return HttpApiResponse.<List<ProductMvcResponseDto>>builder()
+                .responseCode(HttpStatus.OK.value())
+                .content(all.stream().map(productMapper :: toDto).collect(Collectors.toList()))
+                .status(HttpStatus.OK)
+                .message("OK")
+                .build();
+
+    }
 }

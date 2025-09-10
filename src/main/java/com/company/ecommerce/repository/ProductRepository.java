@@ -20,4 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<List<Product>> findAllBySellerIdAndDeletedAtIsNull(Long id);
 
     List<Product> findAllByDeletedAtIsNull();
+
+    List<Product> findByNameContainingIgnoreCase(String name);
 }

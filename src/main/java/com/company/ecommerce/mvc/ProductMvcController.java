@@ -95,4 +95,10 @@ public class ProductMvcController {
         return "products/products :: content";
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam(required = false, value = "search") String search, Model model){
+        List<ProductMvcResponseDto> content = productService.search(search).getContent();
+        model.addAttribute("products", content);
+        return "products/products :: product-table";
+    }
 }
