@@ -13,4 +13,6 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     List<Address> findAllByAddressType(AddressType addressType);
 
     Optional<Address> findByIdAndDeletedAtIsNull(Long id);
+
+    List<Address> findAllByDeletedAtIsNull();
 }

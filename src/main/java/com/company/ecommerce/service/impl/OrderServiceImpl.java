@@ -171,4 +171,17 @@ public class OrderServiceImpl implements OrderService {
                 .responseCode(HttpStatus.OK.value())
                 .build();
     }
+
+    @Override
+    public HttpApiResponse<List<OrderResponseDto>> getAll() {
+        List<Orders> all = orderRepository.findAll();
+
+        return HttpApiResponse.<List<OrderResponseDto>>builder()
+                .content(orderMapper.toDtoList(all))
+                .status(HttpStatus.OK)
+                .message("OK")
+                .success(true)
+                .responseCode(HttpStatus.OK.value())
+                .build();
+    }
 }

@@ -1,0 +1,46 @@
+<div th:fragment="form">
+    <h2>Add Seller</h2>
+    <form hx-post="/admin/addresses/create"
+          hx-target="#main-content"
+          hx-swap="innerHTML">
+
+        <div class="mb-3">
+            <label class="form-label">Region</label>
+            <input type="text" name="region" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">City</label>
+            <input type="text" name="city" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">District</label>
+            <input type="text" name="district" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Street</label>
+            <input type="text" name="street" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">HomeNumber</label>
+            <input type="text" name="homeNumber" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Address Type</label>
+            <select class="form-select" name="addressTypeIndex" required>
+                <option th:value="0">User</option>
+                <option th:value="1">Market</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-secondary"
+                hx-get="/admin/addresses/get-all"
+                hx-target="#main-content"
+                hx-swap="innerHTML">Cancel</button>
+    </form>
+</div>

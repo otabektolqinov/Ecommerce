@@ -20,4 +20,11 @@ public class AddressResponseDto {
     private String homeNumber;
     private Integer addressTypeIndex;
 
+    public String getFullAddress(){
+        return region + ", "
+                + city + ", "
+                + district + ", "
+                + street + ", "
+                + homeNumber + ".";
+    }
 }

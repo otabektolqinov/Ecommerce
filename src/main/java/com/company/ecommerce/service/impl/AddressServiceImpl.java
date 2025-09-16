@@ -112,4 +112,19 @@ public class AddressServiceImpl implements AddressService {
                 .responseCode(HttpStatus.OK.value())
                 .build();
     }
+
+    @Override
+    public HttpApiResponse<List<AddressResponseDto>> getAll() {
+        List<Address> addresses = addressRepository.findAllByDeletedAtIsNull();
+
+        return HttpApiResponse.<List<AddressResponseDto>>builder()
+                .message("OK")
+                .status(HttpStatus.OK)
+                .content(addresses
+                        .stream()
+                        .map(addressMapper::toDto)
+                        .toList()
+                )
+                .build();
+    }
 }

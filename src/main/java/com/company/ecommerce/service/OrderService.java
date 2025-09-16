@@ -5,6 +5,7 @@ import com.company.ecommerce.dto.request.OrderRequestDto;
 import com.company.ecommerce.dto.response.OrderResponseDto;
 import org.springframework.stereotype.Service;
 
+import java.net.URLConnection;
 import java.util.List;
 
 @Service
@@ -17,4 +18,6 @@ public interface OrderService {
     HttpApiResponse<List<OrderResponseDto>> getAllOrdersByUsersId(Long userId);
 
     HttpApiResponse<OrderResponseDto> updateOrderStatusById(Long orderId, Integer orderStatusIndex);
+
+    HttpApiResponse<List<OrderResponseDto>> getAll();
 }
