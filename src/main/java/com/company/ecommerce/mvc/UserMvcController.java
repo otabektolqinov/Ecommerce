@@ -40,7 +40,6 @@ public class UserMvcController {
 
     @GetMapping("/edit/{id}")
     public String updateUserForm(@PathVariable String id, Model model){
-        System.out.println(id);
         UserResponseDto content = userService.getUsersById(Long.parseLong(id)).getContent();
         model.addAttribute("user", content);
         model.addAttribute("id", id);

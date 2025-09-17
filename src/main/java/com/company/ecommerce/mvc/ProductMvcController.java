@@ -104,15 +104,6 @@ public class ProductMvcController {
 
     @GetMapping("/category/filter/{id}")
     public String filterByCategory(@PathVariable Long id, Model model){
-        System.out.println(id);
-        System.out.println(id);
-        System.out.println(id);
-        System.out.println(id);
-        System.out.println(id);
-        System.out.println(id);
-        System.out.println(id);
-
-        System.out.println(id);
         List<ProductMvcResponseDto> content = productService.getAllProductByCategoryId(id).getContent();
         model.addAttribute("products", content);
         return "products/products :: product-table";
