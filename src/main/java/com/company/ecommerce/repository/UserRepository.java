@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     Optional<Users> findByIdAndDeletedAtIsNull(Long id);
 
     List<Users> findAllByDeletedAtIsNull();
+
+    List<Users> findByAuthUser_Id(Long authUserId);
 }

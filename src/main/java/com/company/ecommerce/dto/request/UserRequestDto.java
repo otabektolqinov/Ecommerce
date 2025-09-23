@@ -28,5 +28,7 @@ public class UserRequestDto {
     private Integer genderIndex;
     @NotNull(message = "Birthday cannot be null")
     private LocalDate birthday;
+    @NotNull(message = "auth user cannot be null")
+    private Long authUserId;
 
 }

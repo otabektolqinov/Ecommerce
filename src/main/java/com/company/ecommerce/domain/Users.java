@@ -26,8 +26,8 @@ public class Users extends BaseEntity{
     private Gender gender;
     private LocalDate birthday;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    private AuthUser authUser;
+    @OneToOne(cascade = CascadeType.ALL)
+    private AuthUser authUser;
 
     @OneToMany(
             mappedBy = "users",

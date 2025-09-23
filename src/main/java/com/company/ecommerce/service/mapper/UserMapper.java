@@ -9,6 +9,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", imports = { Gender.class })
 public interface UserMapper {
 
+    @Mapping(target = "authUser", ignore = true)
     @Mapping(target = "commentList", ignore = true)
     @Mapping(target = "orders", ignore = true)
     @Mapping(target = "gender", expression = "java(Gender.fromValue(dto.getGenderIndex()))")
@@ -18,6 +19,7 @@ public interface UserMapper {
     @Mapping(target = "genderIndex", expression = "java(users.getGender().getIndex())")
     UserResponseDto toDto(Users users);
 
+    @Mapping(target = "authUser", ignore = true)
     @Mapping(target = "commentList", ignore = true)
     @Mapping(target = "orders", ignore = true)
     @Mapping(target = "gender", ignore = true)

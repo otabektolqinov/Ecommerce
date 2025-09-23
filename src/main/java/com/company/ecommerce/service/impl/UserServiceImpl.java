@@ -6,11 +6,13 @@ import com.company.ecommerce.dto.ErrorDto;
 import com.company.ecommerce.dto.HttpApiResponse;
 import com.company.ecommerce.dto.request.UserRequestDto;
 import com.company.ecommerce.dto.response.UserResponseDto;
+import com.company.ecommerce.enums.AuthState;
 import com.company.ecommerce.repository.AuthUserRepository;
 import com.company.ecommerce.repository.UserRepository;
 import com.company.ecommerce.service.UserService;
 import com.company.ecommerce.service.mapper.UserMapper;
 import com.company.ecommerce.service.utils.ResponseUtils;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -26,12 +28,23 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final AuthUserRepository authUserRepository;
 
     @Override
     @Transactional
     public HttpApiResponse<UserResponseDto> createUser(UserRequestDto dto) {
+        AuthUser authUser = authUserRepository
+                .findById(dto.getAuthUserId())
+                .orElseThrow(()
+                        -> new EntityNotFoundException(String.format("Auth User with %d id does not exist", dto.getAuthUserId())
+                ));
+
+        authUser.setAuthState(AuthState.ACTIVE);
         Users entity = userMapper.toEntity(dto);
+        entity.setAuthUser(authUser);
         Users saved = userRepository.save(entity);
+        authUser.setUsers(saved);
+
         return HttpApiResponse.<UserResponseDto>builder()
                 .content(userMapper.toDto(saved))
                 .message("Successfully saved users")
